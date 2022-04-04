@@ -12,7 +12,6 @@ import 'package:social_app/shared/components/components.dart';
 import 'package:social_app/shared/components/constants.dart';
 import 'package:social_app/shared/network/local/cache_helper.dart';
 import 'package:social_app/shared/styles/themes.dart';
-//sad asd asdasdasd az
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
