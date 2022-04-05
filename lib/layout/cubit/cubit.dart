@@ -182,13 +182,19 @@ class HomeCubit extends Cubit<HomeLayoutStates> {
     }
   }
 
-  Future<UserModel?> getUserWithUid(String uid) async {
-    var data =
-        await FirebaseFirestore.instance.collection('users').doc(uid).get();
-    if (data.data() != null) {
-      return UserModel.fromJson(data.data()!);
-    } else {
-      return null;
+  UserModel? profileModel;
+  Future getUserWithUid(String uid) async {
+    try {
+      var data =
+          await FirebaseFirestore.instance.collection('users').doc(uid).get();
+      if (data.data() != null) {
+        profileModel = UserModel.fromJson(data.data()!);
+        return UserModel.fromJson(data.data()!);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      print(e.toString());
     }
   }
 

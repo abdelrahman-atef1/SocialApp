@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_app/layout/cubit/cubit.dart';
 import 'package:social_app/layout/cubit/states.dart';
 import 'package:social_app/modules/comments/comments_screen.dart';
+import 'package:social_app/modules/profile/profile_screen.dart';
 import 'package:social_app/shared/components/components.dart';
 import 'package:social_app/shared/styles/colors.dart';
 import 'package:social_app/shared/styles/icon_broken.dart';
@@ -45,7 +46,10 @@ class FeedScreen extends StatelessWidget {
                         shrinkWrap: true,
                         itemBuilder: ((context, index) {
                           return postBuilder(
-                              context: context, cubit: cubit, index: index);
+                            context: context,
+                            cubit: cubit,
+                            index: index,
+                          );
                         }),
                         itemCount: cubit.posts.length,
                       ),
@@ -61,6 +65,7 @@ class FeedScreen extends StatelessWidget {
   Widget postBuilder(
       {required HomeCubit cubit,
       required BuildContext context,
+      //required HomeLayoutStates state,
       required int index}) {
     var postModel = cubit.posts[index];
     return Card(
@@ -74,46 +79,67 @@ class FeedScreen extends StatelessWidget {
             //userData
             Row(
               children: [
-                CircleAvatar(
-                  radius: 25,
-                  backgroundImage: CachedNetworkImageProvider(
-                      postModel.profileImage,
-                      maxHeight: 100),
-                ),
-                const SizedBox(
-                  width: 8,
-                ),
                 Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Flexible(
-                            child: Text(
-                              postModel.name,
-                              style: const TextStyle(
-                                  height: 1.2, overflow: TextOverflow.ellipsis),
-                            ),
+                  child: InkWell(
+                    onTap: () async {
+                      navigatTo(
+                          context: context,
+                          screen: ProfileScreen(
+                              model: cubit.users.singleWhere(
+                                  (element) => element.uId == postModel.uId,
+                                  orElse: (() => cubit.userDataModel))),
+                          replace: false);
+                    },
+                    child: Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 25,
+                          backgroundImage: CachedNetworkImageProvider(
+                              postModel.profileImage,
+                              maxHeight: 100),
+                        ),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Flexible(
+                                    child: Text(
+                                      postModel.name,
+                                      style: const TextStyle(
+                                          height: 1.2,
+                                          overflow: TextOverflow.ellipsis),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 3,
+                                  ),
+                                  Icon(
+                                    Icons.check_circle,
+                                    size: 15,
+                                    color: mainColor,
+                                  )
+                                ],
+                              ),
+                              Text(
+                                postModel.dateTime,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .caption
+                                    ?.copyWith(
+                                      height: 1.2,
+                                    ),
+                              ),
+                            ],
                           ),
-                          const SizedBox(
-                            width: 3,
-                          ),
-                          Icon(
-                            Icons.check_circle,
-                            size: 15,
-                            color: mainColor,
-                          )
-                        ],
-                      ),
-                      Text(
-                        postModel.dateTime,
-                        style: Theme.of(context).textTheme.caption?.copyWith(
-                              height: 1.2,
-                            ),
-                      ),
-                    ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 IconButton(onPressed: () {}, icon: const Icon(Icons.more_horiz))
