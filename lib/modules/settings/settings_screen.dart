@@ -5,6 +5,7 @@ import 'package:social_app/layout/cubit/cubit.dart';
 import 'package:social_app/layout/cubit/states.dart';
 import 'package:social_app/modules/edit_profile/edit_profile_screen.dart';
 import 'package:social_app/shared/components/components.dart';
+import 'package:social_app/shared/network/local/cache_helper.dart';
 import 'package:social_app/shared/styles/colors.dart';
 import 'package:social_app/shared/styles/icon_broken.dart';
 
@@ -82,11 +83,12 @@ class SettingsScreen extends StatelessWidget {
                     const SizedBox(
                       width: 3,
                     ),
-                    Icon(
-                      Icons.check_circle,
-                      color: mainColor,
-                      size: 15,
-                    )
+                    if (CacheHelper.getData('isVerified'))
+                      Icon(
+                        Icons.check_circle,
+                        color: mainColor,
+                        size: 15,
+                      )
                   ],
                 ),
                 //Bio
@@ -164,21 +166,23 @@ class SettingsScreen extends StatelessWidget {
                   children: [
                     Expanded(
                       child: OutlinedButton(
-                        child: const Text('Add Photos'),
-                        onPressed: () {},
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Text('Edit Profile'),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Icon(IconBroken.Edit),
+                          ],
+                        ),
+                        onPressed: () {
+                          navigatTo(
+                              context: context,
+                              screen: EditProfileScreen(),
+                              replace: false);
+                        },
                       ),
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    OutlinedButton(
-                      child: const Icon(IconBroken.Edit),
-                      onPressed: () {
-                        navigatTo(
-                            context: context,
-                            screen: EditProfileScreen(),
-                            replace: false);
-                      },
                     ),
                   ],
                 )

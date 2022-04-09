@@ -27,8 +27,8 @@ class HomeCubit extends Cubit<HomeLayoutStates> {
   Future launchApp() async {
     appLaunched = true;
     await getUserData();
-    getPosts();
     getUsers();
+    getPosts();
   }
 
   Future verify() async {

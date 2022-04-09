@@ -224,29 +224,6 @@ class ProfileScreen extends StatelessWidget {
                             const SizedBox(
                               width: 10,
                             ),
-                            Expanded(
-                              child: OutlinedButton(
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: const [
-                                    Text('Follow'),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Icon(
-                                      IconBroken.Plus,
-                                    ),
-                                  ],
-                                ),
-                                onPressed: () {
-                                  navigatTo(
-                                      context: context,
-                                      screen: EditProfileScreen(),
-                                      replace: false);
-                                },
-                              ),
-                            ),
                           ],
                         )
                 ],

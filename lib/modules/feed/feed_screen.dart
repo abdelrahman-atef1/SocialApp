@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_app/layout/cubit/cubit.dart';
 import 'package:social_app/layout/cubit/states.dart';
+import 'package:social_app/modules/chat/image_viewer.dart';
 import 'package:social_app/modules/comments/comments_screen.dart';
 import 'package:social_app/modules/profile/profile_screen.dart';
 import 'package:social_app/shared/components/components.dart';
@@ -220,7 +221,15 @@ class FeedScreen extends StatelessWidget {
               Padding(
                 padding:
                     const EdgeInsetsDirectional.only(top: 4.0, bottom: 4.0),
-                child: CachedNetworkImage(imageUrl: postModel.postImage!),
+                child: GestureDetector(
+                    onTap: () => navigatTo(
+                        context: context,
+                        screen: ImageViewerScreen(image: postModel.postImage!),
+                        replace: false),
+                    child: Hero(
+                        tag: postModel.postImage!,
+                        child: CachedNetworkImage(
+                            imageUrl: postModel.postImage!))),
               ),
             //Count
             Padding(
