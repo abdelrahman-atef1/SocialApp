@@ -279,7 +279,7 @@ class ChatDetails extends StatelessWidget {
               if (image != '')
                 InkWell(
                   onTap: () {
-                    SchedulerBinding.instance?.addPostFrameCallback((_) {
+                    SchedulerBinding.instance.addPostFrameCallback((_) {
                       navigatTo(
                           context: context,
                           screen: ImageViewerScreen(image: image),
@@ -365,7 +365,7 @@ class ChatDetails extends StatelessWidget {
   void goTOEnd() async {
     if (scrollController.positions.isNotEmpty) {
       await Future.delayed(const Duration(milliseconds: 300));
-      SchedulerBinding.instance?.addPostFrameCallback((_) {
+      SchedulerBinding.instance.addPostFrameCallback((_) {
         scrollController
             .animateTo(scrollController.position.maxScrollExtent,
                 duration: const Duration(milliseconds: 400),
