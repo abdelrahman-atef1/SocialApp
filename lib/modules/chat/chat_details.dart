@@ -6,6 +6,7 @@ import 'package:social_app/layout/cubit/cubit.dart';
 import 'package:social_app/layout/cubit/states.dart';
 import 'package:social_app/models/user_model/user_model.dart';
 import 'package:social_app/modules/chat/image_viewer.dart';
+import 'package:social_app/modules/profile/profile_screen.dart';
 import 'package:social_app/shared/components/components.dart';
 import 'package:social_app/shared/components/constants.dart';
 import 'package:social_app/shared/styles/colors.dart';
@@ -40,25 +41,39 @@ class ChatDetails extends StatelessWidget {
           appBar: defaultAppBar(
             context: context,
             afterTitle: Expanded(
-              child: Row(
-                children: [
-                  CircleAvatar(
-                    radius: 18,
-                    backgroundImage: CachedNetworkImageProvider(
-                        reciverModel.image,
-                        maxHeight: 100),
+              child: InkWell(
+                onTap: () {
+                  navigatTo(
+                      context: context,
+                      screen: ProfileScreen(
+                        model: cubit.users.singleWhere(
+                            (element) => element.uId == reciverModel.uId),
+                      ),
+                      replace: false);
+                },
+                child: Padding(
+                  padding: const EdgeInsetsDirectional.fromSTEB(0, 5, 5, 5),
+                  child: Row(
+                    children: [
+                      CircleAvatar(
+                        radius: 18,
+                        backgroundImage: CachedNetworkImageProvider(
+                            reciverModel.image,
+                            maxHeight: 100),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                        child: Text(reciverModel.name,
+                            style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 16,
+                                overflow: TextOverflow.ellipsis)),
+                      )
+                    ],
                   ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: Text(reciverModel.name,
-                        style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 16,
-                            overflow: TextOverflow.ellipsis)),
-                  )
-                ],
+                ),
               ),
             ),
           ),
@@ -264,7 +279,7 @@ class ChatDetails extends StatelessWidget {
               if (image != '')
                 InkWell(
                   onTap: () {
-                    SchedulerBinding.instance?.addPostFrameCallback((_) {
+                    SchedulerBinding.instance.addPostFrameCallback((_) {
                       navigatTo(
                           context: context,
                           screen: ImageViewerScreen(image: image),
@@ -350,7 +365,7 @@ class ChatDetails extends StatelessWidget {
   void goTOEnd() async {
     if (scrollController.positions.isNotEmpty) {
       await Future.delayed(const Duration(milliseconds: 300));
-      SchedulerBinding.instance?.addPostFrameCallback((_) {
+      SchedulerBinding.instance.addPostFrameCallback((_) {
         scrollController
             .animateTo(scrollController.position.maxScrollExtent,
                 duration: const Duration(milliseconds: 400),

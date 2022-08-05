@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:social_app/layout/cubit/cubit.dart';
 import 'package:social_app/models/user_model/user_model.dart';
 import 'package:social_app/modules/register/cubit/states.dart';
 import 'package:social_app/shared/components/components.dart';
@@ -41,12 +40,7 @@ class RegisterCubit extends Cubit<RegisterStates> {
               email: email,
               uId: value.user!.uid.toString());
           print(uId);
-          await HomeCubit.get(context).getUserData();
-          await HomeCubit.get(context).getPosts().then((value) {
-            print(value);
-          });
           showToast('Registered Succesfully.', ToastState.success);
-
           emit(RegisterSuccessState());
         } else {
           emit(RegisterErrorState());
